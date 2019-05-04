@@ -29,3 +29,31 @@ func (b Board) Left() Board {
 	}
 	return b
 }
+
+func (b Board) Right() Board {
+	for i := len(b) - 1; i >= 0; i-- {
+		y := i / 4
+		x := i % 4
+		if x == 3 || b[i] == 0 {
+			continue
+		}
+		target := -1
+		for cursor := x + 1; cursor < 4; cursor++ {
+			v := y*4 + cursor
+			if b[v] != 0 {
+				break
+			}
+			target = v
+		}
+
+		if target == -1 {
+			continue
+		}
+
+		b[target] = b[i]
+		b[i] = 0
+
+		_ = y
+	}
+	return b
+}
