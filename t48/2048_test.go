@@ -959,9 +959,9 @@ func TestMoveLeft(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := tt.board.Left()
+			got := tt.board.Move(Left)
 			if !tt.want.cmp(got) {
-				t.Fatalf("Left() want %v, got %v", tt.want.pretty(), got.pretty())
+				t.Fatalf("Move(Left) want %v, got %v", tt.want.pretty(), got.pretty())
 			}
 		})
 	}
@@ -1922,9 +1922,9 @@ func TestMoveRight(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := tt.board.Right()
+			got := tt.board.Move(Right)
 			if !tt.want.cmp(got) {
-				t.Fatalf("Right() want %v, got %v", tt.want.pretty(), got.pretty())
+				t.Fatalf("Move(Right) want %v, got %v", tt.want.pretty(), got.pretty())
 			}
 		})
 	}
@@ -2885,9 +2885,9 @@ func TestMoveUp(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := tt.board.Up()
+			got := tt.board.Move(Up)
 			if !tt.want.cmp(got) {
-				t.Fatalf("Up() want %v, got %v", tt.want.pretty(), got.pretty())
+				t.Fatalf("Move(Up) want %v, got %v", tt.want.pretty(), got.pretty())
 			}
 		})
 	}
@@ -3848,9 +3848,9 @@ func TestMoveDown(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := tt.board.Down()
+			got := tt.board.Move(Down)
 			if !tt.want.cmp(got) {
-				t.Fatalf("Down() want %v, got %v", tt.want.pretty(), got.pretty())
+				t.Fatalf("Move(Down) want %v, got %v", tt.want.pretty(), got.pretty())
 			}
 		})
 	}

@@ -53,36 +53,17 @@ func (d Direction) inc(x, y int) (int, int) {
 
 type Board [4 * 4]int
 
-func (b Board) Left() Board {
-	d := Left
-	for i := 0; i < len(b); i++ {
-		process(&b, d, i)
+func (b Board) Move(d Direction) Board {
+	if d == Left || d == Up {
+		for i := 0; i < len(b); i++ {
+			process(&b, d, i)
+		}
 	}
 
-	return b
-}
-func (b Board) Up() Board {
-	d := Up
-	for i := 0; i < len(b); i++ {
-		process(&b, d, i)
-	}
-
-	return b
-}
-
-func (b Board) Right() Board {
-	d := Right
-	for i := len(b) - 1; i >= 0; i-- {
-		process(&b, d, i)
-	}
-
-	return b
-}
-
-func (b Board) Down() Board {
-	d := Down
-	for i := len(b) - 1; i >= 0; i-- {
-		process(&b, d, i)
+	if d == Right || d == Down {
+		for i := len(b) - 1; i >= 0; i-- {
+			process(&b, d, i)
+		}
 	}
 
 	return b
