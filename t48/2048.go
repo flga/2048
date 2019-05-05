@@ -1,12 +1,13 @@
 package t48
 
+// Direction that the pieces can be moved
 type Direction int
 
 const (
-	Left Direction = iota
+	Up Direction = iota
 	Right
-	Up
 	Down
+	Left
 )
 
 func (d Direction) cursor(x, y int) (int, int) {
@@ -51,8 +52,15 @@ func (d Direction) inc(x, y int) (int, int, bool) {
 	return x, y, x > -1 && x < 4 && y > -1 && y < 4
 }
 
+// Board stores the immutable state of a game.
+// Methods of board that need to modify state will return a copy instead.
 type Board [16]int
 
+// Move shifts all the pieces in the given direction.
+//
+// Each piece will be moved to the furthest available spot.
+// If a piece lands in a cell whose adjacent value is the same, they are merged
+// into the adjacent cell and its value gets doubled.
 func (b Board) Move(d Direction) Board {
 	if d == Left || d == Up {
 		for i := 0; i < len(b); i++ {
