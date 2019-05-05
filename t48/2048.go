@@ -37,18 +37,18 @@ func (d Direction) limit(x, y int) bool {
 	return true
 }
 
-func (d Direction) inc(x, y int) (int, int) {
+func (d Direction) inc(x, y int) (int, int, bool) {
 	switch d {
 	case Left:
-		return x - 1, y
+		x--
 	case Right:
-		return x + 1, y
+		x++
 	case Up:
-		return x, y - 1
+		y--
 	case Down:
-		return x, y + 1
+		y++
 	}
-	return -1, -1
+	return x, y, x > -1 && x < 4 && y > -1 && y < 4
 }
 
 type Board [4 * 4]int
@@ -73,19 +73,30 @@ func process(b *Board, d Direction, i int) {
 	if b[i] == 0 {
 		return
 	}
-	target := -1
-	for x, y := d.cursor(i); d.limit(x, y); x, y = d.inc(x, y) {
+
+	var (
+		targetX   = i % 4
+		targetY   = i / 4
+		targetIdx = -1
+	)
+	for x, y := d.cursor(i); d.limit(x, y); x, y, _ = d.inc(x, y) {
 		v := y*4 + x
 		if b[v] != 0 {
 			break
 		}
-		target = v
+		targetX = x
+		targetY = y
+		targetIdx = v
 	}
 
-	if target == -1 {
-		return
+	adjX, adjY, adjInBounds := d.inc(targetX, targetY)
+	adjIdx := adjY*4 + adjX
+	if adjInBounds && b[adjIdx] == b[i] {
+		b[adjIdx] *= 2
+		b[i] = 0
 	}
-
-	b[target] = b[i]
-	b[i] = 0
+	if targetIdx != -1 {
+		b[targetIdx] = b[i]
+		b[i] = 0
+	}
 }
