@@ -9,16 +9,16 @@ const (
 	Down
 )
 
-func (d Direction) cursor(i int) (x, y int) {
+func (d Direction) cursor(x, y int) (int, int) {
 	switch d {
 	case Left:
-		return i%4 - 1, i / 4
+		return x - 1, y
 	case Right:
-		return i%4 + 1, i / 4
+		return x + 1, y
 	case Up:
-		return i % 4, i/4 - 1
+		return x, y - 1
 	case Down:
-		return i % 4, i/4 + 1
+		return x, y + 1
 	}
 	return -1, -1
 }
@@ -34,7 +34,7 @@ func (d Direction) limit(x, y int) bool {
 	case Down:
 		return y < 4
 	}
-	return true
+	return false
 }
 
 func (d Direction) inc(x, y int) (int, int, bool) {
@@ -51,7 +51,7 @@ func (d Direction) inc(x, y int) (int, int, bool) {
 	return x, y, x > -1 && x < 4 && y > -1 && y < 4
 }
 
-type Board [4 * 4]int
+type Board [16]int
 
 func (b Board) Move(d Direction) Board {
 	if d == Left || d == Up {
@@ -75,28 +75,31 @@ func process(b *Board, d Direction, i int) {
 	}
 
 	var (
-		targetX   = i % 4
-		targetY   = i / 4
-		targetIdx = -1
+		curX    = i % 4
+		curY    = i / 4
+		targetX = curX
+		targetY = curY
+		targetI = -1
 	)
-	for x, y := d.cursor(i); d.limit(x, y); x, y, _ = d.inc(x, y) {
-		v := y*4 + x
-		if b[v] != 0 {
+	for x, y := d.cursor(curX, curY); d.limit(x, y); x, y, _ = d.inc(x, y) {
+		target := y*4 + x
+		if b[target] != 0 {
 			break
 		}
 		targetX = x
 		targetY = y
-		targetIdx = v
+		targetI = target
 	}
 
 	adjX, adjY, adjInBounds := d.inc(targetX, targetY)
-	adjIdx := adjY*4 + adjX
-	if adjInBounds && b[adjIdx] == b[i] {
-		b[adjIdx] *= 2
+	adjI := adjY*4 + adjX
+	if adjInBounds && b[adjI] == b[i] {
+		b[adjI] *= 2
 		b[i] = 0
 	}
-	if targetIdx != -1 {
-		b[targetIdx] = b[i]
+
+	if targetI != -1 {
+		b[targetI] = b[i]
 		b[i] = 0
 	}
 }
