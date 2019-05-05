@@ -1600,21 +1600,6 @@ func TestMoveLeft(t *testing.T) {
 				2, 0, 0, 0,
 			},
 		},
-		{
-			name: "merge (V) edges",
-			board: Board{
-				0, 2, 0, 0,
-				2, 0, 0, 2,
-				0, 0, 0, 0,
-				0, 2, 0, 0,
-			},
-			want: Board{
-				2, 0, 0, 0,
-				4, 0, 0, 0,
-				0, 0, 0, 0,
-				2, 0, 0, 0,
-			},
-		},
 	}
 
 	for _, tt := range tests {
@@ -3223,21 +3208,6 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 2,
 			},
 		},
-		{
-			name: "merge (V) edges",
-			board: Board{
-				0, 2, 0, 0,
-				2, 0, 0, 2,
-				0, 0, 0, 0,
-				0, 2, 0, 0,
-			},
-			want: Board{
-				0, 0, 0, 2,
-				0, 0, 0, 4,
-				0, 0, 0, 0,
-				0, 0, 0, 2,
-			},
-		},
 	}
 
 	for _, tt := range tests {
@@ -4198,6 +4168,650 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 4,
 				0, 0, 0, 8,
+				0, 0, 0, 0,
+			},
+		}, {
+			name: "merge (H) gap top - lhs",
+			board: Board{
+				2, 0, 2, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				2, 0, 2, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (H) gap top - rhs",
+			board: Board{
+				0, 2, 0, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 2, 0, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (H) gap middle - lhs",
+			board: Board{
+				0, 0, 0, 0,
+				2, 0, 2, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				2, 0, 2, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (H) gap middle - rhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 2, 0, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 2, 0, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (H) gap bottom - lhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				2, 0, 2, 0,
+			},
+			want: Board{
+				2, 0, 2, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (H) gap bottom - rhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 2, 0, 2,
+			},
+			want: Board{
+				0, 2, 0, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (H) consecutive top - lhs",
+			board: Board{
+				2, 2, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				2, 2, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (H) consecutive top - middle",
+			board: Board{
+				0, 2, 2, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 2, 2, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (H) consecutive top - rhs",
+			board: Board{
+				0, 0, 2, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 2, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (H) consecutive middle - lhs",
+			board: Board{
+				0, 0, 0, 0,
+				2, 2, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				2, 2, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (H) consecutive middle - middle",
+			board: Board{
+				0, 0, 0, 0,
+				0, 2, 2, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 2, 2, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (H) consecutive middle - rhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 2, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 2, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (H) consecutive bottom - lhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				2, 2, 0, 0,
+			},
+			want: Board{
+				2, 2, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (H) consecutive bottom - middle",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 2, 2, 0,
+			},
+			want: Board{
+				0, 2, 2, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (H) consecutive bottom - rhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 2, 2,
+			},
+			want: Board{
+				0, 0, 2, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (H) multiple top - lhs",
+			board: Board{
+				2, 2, 2, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				2, 2, 2, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (H) multiple top - rhs",
+			board: Board{
+				0, 2, 2, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 2, 2, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (H) multiple middle - lhs",
+			board: Board{
+				0, 0, 0, 0,
+				2, 2, 2, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				2, 2, 2, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (H) multiple middle - rhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 2, 2, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 2, 2, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (H) multiple bottom - lhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				2, 2, 2, 0,
+			},
+			want: Board{
+				2, 2, 2, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (H) multiple bottom - rhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 2, 2, 2,
+			},
+			want: Board{
+				0, 2, 2, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (H) edges",
+			board: Board{
+				0, 2, 0, 0,
+				2, 0, 0, 2,
+				0, 0, 0, 0,
+				0, 2, 0, 0,
+			},
+			want: Board{
+				2, 4, 0, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) gap top - lhs",
+			board: Board{
+				2, 0, 0, 0,
+				0, 0, 0, 0,
+				2, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				4, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) gap top - middle",
+			board: Board{
+				0, 2, 0, 0,
+				0, 0, 0, 0,
+				0, 2, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 4, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) gap top - rhs",
+			board: Board{
+				0, 0, 0, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 2,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 4,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) gap bottom - lhs",
+			board: Board{
+				0, 0, 0, 0,
+				2, 0, 0, 0,
+				0, 0, 0, 0,
+				2, 0, 0, 0,
+			},
+			want: Board{
+				4, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) gap bottom - middle",
+			board: Board{
+				0, 0, 0, 0,
+				0, 2, 0, 0,
+				0, 0, 0, 0,
+				0, 2, 0, 0,
+			},
+			want: Board{
+				0, 4, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) gap bottom - rhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 2,
+			},
+			want: Board{
+				0, 0, 0, 4,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) consecutive top - lhs",
+			board: Board{
+				2, 0, 0, 0,
+				2, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				4, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) consecutive top - middle",
+			board: Board{
+				0, 2, 0, 0,
+				0, 2, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 4, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) consecutive top - rhs",
+			board: Board{
+				0, 0, 0, 2,
+				0, 0, 0, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 4,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) consecutive middle - lhs",
+			board: Board{
+				0, 0, 0, 0,
+				2, 0, 0, 0,
+				2, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				4, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) consecutive middle - middle",
+			board: Board{
+				0, 0, 0, 0,
+				0, 2, 0, 0,
+				0, 2, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 4, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) consecutive middle - rhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 2,
+				0, 0, 0, 2,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 4,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) consecutive bottom - lhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				2, 0, 0, 0,
+				2, 0, 0, 0,
+			},
+			want: Board{
+				4, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) consecutive bottom - middle",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 2, 0, 0,
+				0, 2, 0, 0,
+			},
+			want: Board{
+				0, 4, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) consecutive bottom - rhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 2,
+				0, 0, 0, 2,
+			},
+			want: Board{
+				0, 0, 0, 4,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) multiple top - lhs",
+			board: Board{
+				2, 0, 0, 0,
+				2, 0, 0, 0,
+				2, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				4, 0, 0, 0,
+				2, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) multiple top - middle",
+			board: Board{
+				0, 2, 0, 0,
+				0, 2, 0, 0,
+				0, 2, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 4, 0, 0,
+				0, 2, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) multiple top - rhs",
+			board: Board{
+				0, 0, 0, 2,
+				0, 0, 0, 2,
+				0, 0, 0, 2,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 4,
+				0, 0, 0, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) multiple bottom - lhs",
+			board: Board{
+				0, 0, 0, 0,
+				2, 0, 0, 0,
+				2, 0, 0, 0,
+				2, 0, 0, 0,
+			},
+			want: Board{
+				4, 0, 0, 0,
+				2, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) multiple bottom - middle",
+			board: Board{
+				0, 0, 0, 0,
+				0, 2, 0, 0,
+				0, 2, 0, 0,
+				0, 2, 0, 0,
+			},
+			want: Board{
+				0, 4, 0, 0,
+				0, 2, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) multiple bottom - rhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 2,
+				0, 0, 0, 2,
+				0, 0, 0, 2,
+			},
+			want: Board{
+				0, 0, 0, 4,
+				0, 0, 0, 2,
+				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
 		},
@@ -5162,6 +5776,650 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 4,
 				0, 0, 0, 8,
+			},
+		}, {
+			name: "merge (H) gap top - lhs",
+			board: Board{
+				2, 0, 2, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				2, 0, 2, 0,
+			},
+		},
+		{
+			name: "merge (H) gap top - rhs",
+			board: Board{
+				0, 2, 0, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 2, 0, 2,
+			},
+		},
+		{
+			name: "merge (H) gap middle - lhs",
+			board: Board{
+				0, 0, 0, 0,
+				2, 0, 2, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				2, 0, 2, 0,
+			},
+		},
+		{
+			name: "merge (H) gap middle - rhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 2, 0, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 2, 0, 2,
+			},
+		},
+		{
+			name: "merge (H) gap bottom - lhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				2, 0, 2, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				2, 0, 2, 0,
+			},
+		},
+		{
+			name: "merge (H) gap bottom - rhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 2, 0, 2,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 2, 0, 2,
+			},
+		},
+		{
+			name: "merge (H) consecutive top - lhs",
+			board: Board{
+				2, 2, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				2, 2, 0, 0,
+			},
+		},
+		{
+			name: "merge (H) consecutive top - middle",
+			board: Board{
+				0, 2, 2, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 2, 2, 0,
+			},
+		},
+		{
+			name: "merge (H) consecutive top - rhs",
+			board: Board{
+				0, 0, 2, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 2, 2,
+			},
+		},
+		{
+			name: "merge (H) consecutive middle - lhs",
+			board: Board{
+				0, 0, 0, 0,
+				2, 2, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				2, 2, 0, 0,
+			},
+		},
+		{
+			name: "merge (H) consecutive middle - middle",
+			board: Board{
+				0, 0, 0, 0,
+				0, 2, 2, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 2, 2, 0,
+			},
+		},
+		{
+			name: "merge (H) consecutive middle - rhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 2, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 2, 2,
+			},
+		},
+		{
+			name: "merge (H) consecutive bottom - lhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				2, 2, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				2, 2, 0, 0,
+			},
+		},
+		{
+			name: "merge (H) consecutive bottom - middle",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 2, 2, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 2, 2, 0,
+			},
+		},
+		{
+			name: "merge (H) consecutive bottom - rhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 2, 2,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 2, 2,
+			},
+		},
+		{
+			name: "merge (H) multiple top - lhs",
+			board: Board{
+				2, 2, 2, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				2, 2, 2, 0,
+			},
+		},
+		{
+			name: "merge (H) multiple top - rhs",
+			board: Board{
+				0, 2, 2, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 2, 2, 2,
+			},
+		},
+		{
+			name: "merge (H) multiple middle - lhs",
+			board: Board{
+				0, 0, 0, 0,
+				2, 2, 2, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				2, 2, 2, 0,
+			},
+		},
+		{
+			name: "merge (H) multiple middle - rhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 2, 2, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 2, 2, 2,
+			},
+		},
+		{
+			name: "merge (H) multiple bottom - lhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				2, 2, 2, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				2, 2, 2, 0,
+			},
+		},
+		{
+			name: "merge (H) multiple bottom - rhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 2, 2, 2,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 2, 2, 2,
+			},
+		},
+		{
+			name: "merge (H) edges",
+			board: Board{
+				0, 2, 0, 0,
+				2, 0, 0, 2,
+				0, 0, 0, 0,
+				0, 2, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				2, 4, 0, 2,
+			},
+		},
+		{
+			name: "merge (V) gap top - lhs",
+			board: Board{
+				2, 0, 0, 0,
+				0, 0, 0, 0,
+				2, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				4, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) gap top - middle",
+			board: Board{
+				0, 2, 0, 0,
+				0, 0, 0, 0,
+				0, 2, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 4, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) gap top - rhs",
+			board: Board{
+				0, 0, 0, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 2,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 4,
+			},
+		},
+		{
+			name: "merge (V) gap bottom - lhs",
+			board: Board{
+				0, 0, 0, 0,
+				2, 0, 0, 0,
+				0, 0, 0, 0,
+				2, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				4, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) gap bottom - middle",
+			board: Board{
+				0, 0, 0, 0,
+				0, 2, 0, 0,
+				0, 0, 0, 0,
+				0, 2, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 4, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) gap bottom - rhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 2,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 4,
+			},
+		},
+		{
+			name: "merge (V) consecutive top - lhs",
+			board: Board{
+				2, 0, 0, 0,
+				2, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				4, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) consecutive top - middle",
+			board: Board{
+				0, 2, 0, 0,
+				0, 2, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 4, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) consecutive top - rhs",
+			board: Board{
+				0, 0, 0, 2,
+				0, 0, 0, 2,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 4,
+			},
+		},
+		{
+			name: "merge (V) consecutive middle - lhs",
+			board: Board{
+				0, 0, 0, 0,
+				2, 0, 0, 0,
+				2, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				4, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) consecutive middle - middle",
+			board: Board{
+				0, 0, 0, 0,
+				0, 2, 0, 0,
+				0, 2, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 4, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) consecutive middle - rhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 2,
+				0, 0, 0, 2,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 4,
+			},
+		},
+		{
+			name: "merge (V) consecutive bottom - lhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				2, 0, 0, 0,
+				2, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				4, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) consecutive bottom - middle",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 2, 0, 0,
+				0, 2, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 4, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) consecutive bottom - rhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 2,
+				0, 0, 0, 2,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 4,
+			},
+		},
+		{
+			name: "merge (V) multiple top - lhs",
+			board: Board{
+				2, 0, 0, 0,
+				2, 0, 0, 0,
+				2, 0, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				2, 0, 0, 0,
+				4, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) multiple top - middle",
+			board: Board{
+				0, 2, 0, 0,
+				0, 2, 0, 0,
+				0, 2, 0, 0,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 2, 0, 0,
+				0, 4, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) multiple top - rhs",
+			board: Board{
+				0, 0, 0, 2,
+				0, 0, 0, 2,
+				0, 0, 0, 2,
+				0, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 2,
+				0, 0, 0, 4,
+			},
+		},
+		{
+			name: "merge (V) multiple bottom - lhs",
+			board: Board{
+				0, 0, 0, 0,
+				2, 0, 0, 0,
+				2, 0, 0, 0,
+				2, 0, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				2, 0, 0, 0,
+				4, 0, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) multiple bottom - middle",
+			board: Board{
+				0, 0, 0, 0,
+				0, 2, 0, 0,
+				0, 2, 0, 0,
+				0, 2, 0, 0,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 2, 0, 0,
+				0, 4, 0, 0,
+			},
+		},
+		{
+			name: "merge (V) multiple bottom - rhs",
+			board: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 2,
+				0, 0, 0, 2,
+				0, 0, 0, 2,
+			},
+			want: Board{
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 2,
+				0, 0, 0, 4,
 			},
 		},
 	}
