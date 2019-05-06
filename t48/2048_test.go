@@ -1,14 +1,16 @@
 package t48
 
 import (
+	"reflect"
 	"testing"
 )
 
 func TestMoveLeft(t *testing.T) {
 	tests := []struct {
-		name  string
-		board Board
-		want  Board
+		name      string
+		board     Board
+		want      Board
+		wantMoves []Move
 	}{
 		{
 			name: "empty board",
@@ -24,6 +26,7 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "single item top - lhs",
@@ -39,6 +42,7 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "single item top - middle",
@@ -53,6 +57,13 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -69,6 +80,13 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "single item middle - lhs",
@@ -84,6 +102,7 @@ func TestMoveLeft(t *testing.T) {
 				2, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "single item middle - middle",
@@ -98,6 +117,13 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				2, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -114,6 +140,13 @@ func TestMoveLeft(t *testing.T) {
 				2, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "single item bottom - lhs",
@@ -129,6 +162,7 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				2, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "single item bottom - middle",
@@ -143,6 +177,13 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				2, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -159,6 +200,13 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				2, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two consecutive items (H) top - lhs",
@@ -174,6 +222,7 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two consecutive items (H) top - middle",
@@ -188,6 +237,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 0},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -204,6 +265,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 0},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two consecutive items (H) middle - lhs",
@@ -219,6 +292,7 @@ func TestMoveLeft(t *testing.T) {
 				4, 2, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two consecutive items (H) middle - middle",
@@ -233,6 +307,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				4, 2, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 2},
+					To:   Point{1, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -249,6 +335,18 @@ func TestMoveLeft(t *testing.T) {
 				4, 2, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 2},
+					To:   Point{1, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two consecutive items (H) bottom - lhs",
@@ -264,6 +362,7 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				4, 2, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two consecutive items (H) bottom - middle",
@@ -278,6 +377,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				4, 2, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 3},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -294,6 +405,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				4, 2, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two consecutive items (V) top - lhs",
@@ -309,6 +432,7 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two consecutive items (V) top - middle",
@@ -323,6 +447,18 @@ func TestMoveLeft(t *testing.T) {
 				2, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -339,6 +475,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two consecutive items (V) middle - lhs",
@@ -354,6 +502,7 @@ func TestMoveLeft(t *testing.T) {
 				2, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two consecutive items (V) middle - middle",
@@ -368,6 +517,18 @@ func TestMoveLeft(t *testing.T) {
 				4, 0, 0, 0,
 				2, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -384,6 +545,18 @@ func TestMoveLeft(t *testing.T) {
 				2, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two consecutive items (V) bottom - lhs",
@@ -399,6 +572,7 @@ func TestMoveLeft(t *testing.T) {
 				4, 0, 0, 0,
 				2, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two consecutive items (V) bottom - middle",
@@ -413,6 +587,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				4, 0, 0, 0,
 				2, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -429,6 +615,18 @@ func TestMoveLeft(t *testing.T) {
 				4, 0, 0, 0,
 				2, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two items with gap (H) top - lhs",
@@ -443,6 +641,13 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -459,6 +664,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 0},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two items with gap (H) middle - lhs",
@@ -473,6 +690,13 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				2, 4, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 2},
+					To:   Point{1, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -489,6 +713,18 @@ func TestMoveLeft(t *testing.T) {
 				2, 4, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 2},
+					To:   Point{1, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two items with gap (H) bottom - lhs",
@@ -503,6 +739,13 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				2, 4, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 3},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -519,6 +762,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				2, 4, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two items with gap (V) top - lhs",
@@ -533,6 +788,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				2, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -549,6 +816,18 @@ func TestMoveLeft(t *testing.T) {
 				2, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two items with gap (V) bottom - lhs",
@@ -564,6 +843,7 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				4, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two items with gap (V) bottom - middle",
@@ -578,6 +858,18 @@ func TestMoveLeft(t *testing.T) {
 				2, 0, 0, 0,
 				0, 0, 0, 0,
 				4, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -594,6 +886,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				4, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three items with gap (H) top - lhs",
@@ -608,6 +912,13 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 0},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -624,6 +935,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 0},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three items with gap (H) middle - lhs",
@@ -638,6 +961,13 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				2, 4, 8, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 2},
+					To:   Point{2, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -654,6 +984,18 @@ func TestMoveLeft(t *testing.T) {
 				2, 4, 8, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 2},
+					To:   Point{1, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 2},
+					To:   Point{2, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three items with gap (H) bottom - lhs",
@@ -668,6 +1010,13 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				2, 4, 8, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 3},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -684,6 +1033,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				2, 4, 8, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 3},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three items with gap (V) top - lhs",
@@ -699,6 +1060,7 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				8, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three items with gap (V) top - middle",
@@ -713,6 +1075,23 @@ func TestMoveLeft(t *testing.T) {
 				4, 0, 0, 0,
 				0, 0, 0, 0,
 				8, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -729,6 +1108,23 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				8, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three items with gap (V) bottom - lhs",
@@ -744,6 +1140,7 @@ func TestMoveLeft(t *testing.T) {
 				4, 0, 0, 0,
 				2, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three items with gap (V) bottom - middle",
@@ -758,6 +1155,23 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				4, 0, 0, 0,
 				2, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -774,6 +1188,23 @@ func TestMoveLeft(t *testing.T) {
 				4, 0, 0, 0,
 				2, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three consecutive items (H) top - lhs",
@@ -789,6 +1220,7 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three consecutive items (H) top - rhs",
@@ -803,6 +1235,23 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 0},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 0},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -819,6 +1268,7 @@ func TestMoveLeft(t *testing.T) {
 				2, 4, 8, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three consecutive items (H) middle - rhs",
@@ -833,6 +1283,23 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				2, 4, 8, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 2},
+					To:   Point{1, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 2},
+					To:   Point{2, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -849,6 +1316,7 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				2, 4, 8, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three consecutive items (H) bottom - rhs",
@@ -863,6 +1331,23 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				2, 4, 8, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 3},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -879,6 +1364,7 @@ func TestMoveLeft(t *testing.T) {
 				8, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three consecutive items (V) top - middle",
@@ -893,6 +1379,23 @@ func TestMoveLeft(t *testing.T) {
 				4, 0, 0, 0,
 				8, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -909,6 +1412,23 @@ func TestMoveLeft(t *testing.T) {
 				8, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three consecutive items (V) bottom - lhs",
@@ -924,6 +1444,7 @@ func TestMoveLeft(t *testing.T) {
 				4, 0, 0, 0,
 				8, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three consecutive items (V) bottom - middle",
@@ -938,6 +1459,23 @@ func TestMoveLeft(t *testing.T) {
 				2, 0, 0, 0,
 				4, 0, 0, 0,
 				8, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -954,6 +1492,23 @@ func TestMoveLeft(t *testing.T) {
 				4, 0, 0, 0,
 				8, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (H) gap top - lhs",
@@ -968,6 +1523,13 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{0, 0},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -984,6 +1546,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 0},
+					To:   Point{0, 0},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (H) gap middle - lhs",
@@ -998,6 +1572,13 @@ func TestMoveLeft(t *testing.T) {
 				4, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 1},
+					To:   Point{0, 1},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -1014,6 +1595,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 1},
+					To:   Point{0, 1},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (H) gap bottom - lhs",
@@ -1028,6 +1621,13 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				4, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 3},
+					To:   Point{0, 3},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -1044,6 +1644,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				4, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{0, 3},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (H) consecutive top - lhs",
@@ -1058,6 +1670,13 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 0},
+					To:   Point{0, 0},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -1074,6 +1693,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 0},
+					To:   Point{0, 0},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (H) consecutive top - rhs",
@@ -1088,6 +1719,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 0},
+					To:   Point{0, 0},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -1104,6 +1747,13 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{0, 1},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (H) consecutive middle - middle",
@@ -1118,6 +1768,18 @@ func TestMoveLeft(t *testing.T) {
 				4, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 1},
+					To:   Point{0, 1},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -1134,6 +1796,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 1},
+					To:   Point{0, 1},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (H) consecutive bottom - lhs",
@@ -1148,6 +1822,13 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				4, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 3},
+					To:   Point{0, 3},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -1164,6 +1845,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				4, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 3},
+					To:   Point{0, 3},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (H) consecutive bottom - rhs",
@@ -1178,6 +1871,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				4, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{0, 3},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -1194,6 +1899,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 0},
+					To:   Point{0, 0},
+					Type: Merge,
+				},
+				Move{
+					From: Point{2, 0},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (H) multiple top - rhs",
@@ -1208,6 +1925,23 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 0},
+					To:   Point{0, 0},
+					Type: Merge,
+				},
+				Move{
+					From: Point{3, 0},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -1224,6 +1958,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{0, 1},
+					Type: Merge,
+				},
+				Move{
+					From: Point{2, 1},
+					To:   Point{1, 1},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (H) multiple middle - rhs",
@@ -1238,6 +1984,23 @@ func TestMoveLeft(t *testing.T) {
 				4, 2, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 1},
+					To:   Point{0, 1},
+					Type: Merge,
+				},
+				Move{
+					From: Point{3, 1},
+					To:   Point{1, 1},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -1254,6 +2017,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				4, 2, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 3},
+					To:   Point{0, 3},
+					Type: Merge,
+				},
+				Move{
+					From: Point{2, 3},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (H) multiple bottom - rhs",
@@ -1268,6 +2043,23 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				4, 2, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 3},
+					To:   Point{0, 3},
+					Type: Merge,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -1284,6 +2076,23 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				2, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 1},
+					To:   Point{0, 1},
+					Type: Merge,
+				},
+				Move{
+					From: Point{1, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (V) gap top - lhs",
@@ -1299,6 +2108,7 @@ func TestMoveLeft(t *testing.T) {
 				2, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (V) gap top - middle",
@@ -1313,6 +2123,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				2, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -1329,6 +2151,18 @@ func TestMoveLeft(t *testing.T) {
 				2, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (V) gap bottom - lhs",
@@ -1344,6 +2178,7 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				2, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (V) gap bottom - middle",
@@ -1358,6 +2193,18 @@ func TestMoveLeft(t *testing.T) {
 				2, 0, 0, 0,
 				0, 0, 0, 0,
 				2, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -1374,6 +2221,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				2, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (V) consecutive top - lhs",
@@ -1389,6 +2248,7 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (V) consecutive top - middle",
@@ -1403,6 +2263,18 @@ func TestMoveLeft(t *testing.T) {
 				2, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -1419,6 +2291,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (V) consecutive middle - lhs",
@@ -1434,6 +2318,7 @@ func TestMoveLeft(t *testing.T) {
 				2, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (V) consecutive middle - middle",
@@ -1448,6 +2333,18 @@ func TestMoveLeft(t *testing.T) {
 				2, 0, 0, 0,
 				2, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -1464,6 +2361,18 @@ func TestMoveLeft(t *testing.T) {
 				2, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (V) consecutive bottom - lhs",
@@ -1479,6 +2388,7 @@ func TestMoveLeft(t *testing.T) {
 				2, 0, 0, 0,
 				2, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (V) consecutive bottom - middle",
@@ -1493,6 +2403,18 @@ func TestMoveLeft(t *testing.T) {
 				0, 0, 0, 0,
 				2, 0, 0, 0,
 				2, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -1509,6 +2431,18 @@ func TestMoveLeft(t *testing.T) {
 				2, 0, 0, 0,
 				2, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (V) multiple top - lhs",
@@ -1524,6 +2458,7 @@ func TestMoveLeft(t *testing.T) {
 				2, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (V) multiple top - middle",
@@ -1538,6 +2473,23 @@ func TestMoveLeft(t *testing.T) {
 				2, 0, 0, 0,
 				2, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -1554,6 +2506,23 @@ func TestMoveLeft(t *testing.T) {
 				2, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 0},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (V) multiple bottom - lhs",
@@ -1569,6 +2538,7 @@ func TestMoveLeft(t *testing.T) {
 				2, 0, 0, 0,
 				2, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (V) multiple bottom - middle",
@@ -1583,6 +2553,23 @@ func TestMoveLeft(t *testing.T) {
 				2, 0, 0, 0,
 				2, 0, 0, 0,
 				2, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -1599,14 +2586,34 @@ func TestMoveLeft(t *testing.T) {
 				2, 0, 0, 0,
 				2, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 1},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 2},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+			},
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := tt.board.Move(Left)
+			got, moves := tt.board.Move(Left, nil)
 			if !tt.want.cmp(got) {
 				t.Fatalf("Move(Left) want %v, got %v", tt.want.pretty(), got.pretty())
+			}
+			if !reflect.DeepEqual(tt.wantMoves, moves) {
+				t.Fatalf("Move(Left) want moves %v, got %v", tt.wantMoves, moves)
 			}
 		})
 	}
@@ -1614,9 +2621,10 @@ func TestMoveLeft(t *testing.T) {
 
 func TestMoveRight(t *testing.T) {
 	tests := []struct {
-		name  string
-		board Board
-		want  Board
+		name      string
+		board     Board
+		want      Board
+		wantMoves []Move
 	}{
 		{
 			name: "empty board",
@@ -1632,6 +2640,7 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "single item top - lhs",
@@ -1646,6 +2655,13 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -1662,6 +2678,13 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "single item top - rhs",
@@ -1677,6 +2700,7 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "single item middle - lhs",
@@ -1691,6 +2715,13 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 2,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -1707,6 +2738,13 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "single item middle - rhs",
@@ -1722,6 +2760,7 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "single item bottom - lhs",
@@ -1736,6 +2775,13 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 2,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -1752,6 +2798,13 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 2,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "single item bottom - rhs",
@@ -1767,6 +2820,7 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 2,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two consecutive items (H) top - lhs",
@@ -1781,6 +2835,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -1797,6 +2863,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two consecutive items (H) top - rhs",
@@ -1812,6 +2890,7 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two consecutive items (H) middle - lhs",
@@ -1826,6 +2905,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 4, 2,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 2},
+					To:   Point{2, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -1842,6 +2933,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 4, 2,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 2},
+					To:   Point{2, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two consecutive items (H) middle - rhs",
@@ -1857,6 +2960,7 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 4, 2,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two consecutive items (H) bottom - lhs",
@@ -1871,6 +2975,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 4, 2,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 3},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -1887,6 +3003,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 4, 2,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 3},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two consecutive items (H) bottom - rhs",
@@ -1902,6 +3030,7 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 4, 2,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two consecutive items (V) top - lhs",
@@ -1916,6 +3045,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -1932,6 +3073,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two consecutive items (V) top - rhs",
@@ -1947,6 +3100,7 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two consecutive items (V) middle - lhs",
@@ -1961,6 +3115,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 4,
 				0, 0, 0, 2,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -1977,6 +3143,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two consecutive items (V) middle - rhs",
@@ -1992,6 +3170,7 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two consecutive items (V) bottom - lhs",
@@ -2006,6 +3185,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 4,
 				0, 0, 0, 2,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -2022,6 +3213,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 4,
 				0, 0, 0, 2,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two consecutive items (V) bottom - rhs",
@@ -2037,6 +3240,7 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 4,
 				0, 0, 0, 2,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two items with gap (H) top - lhs",
@@ -2051,6 +3255,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -2067,6 +3283,13 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 0},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two items with gap (H) middle - lhs",
@@ -2081,6 +3304,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 2, 4,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 2},
+					To:   Point{2, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -2097,6 +3332,13 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 2, 4,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 2},
+					To:   Point{2, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two items with gap (H) bottom - lhs",
@@ -2111,6 +3353,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 2, 4,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 3},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -2127,6 +3381,13 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 2, 4,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 3},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two items with gap (V) top - lhs",
@@ -2141,6 +3402,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 2,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -2157,6 +3430,7 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two items with gap (V) bottom - lhs",
@@ -2171,6 +3445,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 0,
 				0, 0, 0, 4,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -2187,6 +3473,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 4,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two items with gap (V) bottom - rhs",
@@ -2202,6 +3500,7 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 4,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three items with gap (H) top - lhs",
@@ -2216,6 +3515,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 0},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -2232,6 +3543,13 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 0},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three items with gap (H) middle - lhs",
@@ -2246,6 +3564,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 2, 4, 8,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 2},
+					To:   Point{2, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 2},
+					To:   Point{1, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -2262,6 +3592,13 @@ func TestMoveRight(t *testing.T) {
 				0, 2, 4, 8,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 2},
+					To:   Point{1, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three items with gap (H) bottom - lhs",
@@ -2276,6 +3613,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 2, 4, 8,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 3},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 3},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -2292,6 +3641,13 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 2, 4, 8,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 3},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three items with gap (V) top - lhs",
@@ -2306,6 +3662,23 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 4,
 				0, 0, 0, 0,
 				0, 0, 0, 8,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -2322,6 +3695,23 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 8,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three items with gap (V) top - rhs",
@@ -2337,6 +3727,7 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 8,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three items with gap (V) bottom - lhs",
@@ -2351,6 +3742,23 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 4,
 				0, 0, 0, 2,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -2367,6 +3775,23 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 4,
 				0, 0, 0, 2,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three items with gap (V) bottom - rhs",
@@ -2382,6 +3807,7 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 4,
 				0, 0, 0, 2,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three consecutive items (H) top - lhs",
@@ -2396,6 +3822,23 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -2412,6 +3855,7 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three consecutive items (H) middle - lhs",
@@ -2426,6 +3870,23 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 2, 4, 8,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 2},
+					To:   Point{2, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 2},
+					To:   Point{1, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -2442,6 +3903,7 @@ func TestMoveRight(t *testing.T) {
 				0, 2, 4, 8,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three consecutive items (H) bottom - lhs",
@@ -2456,6 +3918,23 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 2, 4, 8,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 3},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 3},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -2472,6 +3951,7 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 2, 4, 8,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three consecutive items (V) top - lhs",
@@ -2486,6 +3966,23 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 4,
 				0, 0, 0, 8,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -2502,6 +3999,23 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 8,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three consecutive items (V) top - rhs",
@@ -2517,6 +4031,7 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 8,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three consecutive items (V) bottom - lhs",
@@ -2531,6 +4046,23 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 4,
 				0, 0, 0, 8,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -2547,6 +4079,23 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 4,
 				0, 0, 0, 8,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three consecutive items (V) bottom - rhs",
@@ -2562,6 +4111,7 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 4,
 				0, 0, 0, 8,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (H) gap top - lhs",
@@ -2576,6 +4126,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{3, 0},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -2592,6 +4154,13 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 0},
+					To:   Point{3, 0},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (H) gap middle - lhs",
@@ -2606,6 +4175,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 4,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 1},
+					To:   Point{3, 1},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -2622,6 +4203,13 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{3, 1},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (H) gap bottom - lhs",
@@ -2636,6 +4224,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 4,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 3},
+					To:   Point{3, 3},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -2652,6 +4252,13 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 4,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 3},
+					To:   Point{3, 3},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (H) consecutive top - lhs",
@@ -2666,6 +4273,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{3, 0},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -2682,6 +4301,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{3, 0},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (H) consecutive top - rhs",
@@ -2696,6 +4327,13 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{3, 0},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -2712,6 +4350,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 1},
+					To:   Point{3, 1},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (H) consecutive middle - middle",
@@ -2726,6 +4376,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 4,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 1},
+					To:   Point{3, 1},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -2742,6 +4404,13 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 1},
+					To:   Point{3, 1},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (H) consecutive bottom - lhs",
@@ -2756,6 +4425,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 4,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 3},
+					To:   Point{3, 3},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -2772,6 +4453,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 4,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 3},
+					To:   Point{3, 3},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (H) consecutive bottom - rhs",
@@ -2786,6 +4479,13 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 4,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 3},
+					To:   Point{3, 3},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -2802,6 +4502,23 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{3, 0},
+					Type: Merge,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (H) multiple top - rhs",
@@ -2816,6 +4533,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{3, 0},
+					Type: Merge,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -2832,6 +4561,23 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 1},
+					To:   Point{3, 1},
+					Type: Merge,
+				},
+				Move{
+					From: Point{0, 1},
+					To:   Point{2, 1},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (H) multiple middle - rhs",
@@ -2846,6 +4592,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 2, 4,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 1},
+					To:   Point{3, 1},
+					Type: Merge,
+				},
+				Move{
+					From: Point{1, 1},
+					To:   Point{2, 1},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -2862,6 +4620,23 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 2, 4,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 3},
+					To:   Point{3, 3},
+					Type: Merge,
+				},
+				Move{
+					From: Point{0, 3},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (H) multiple bottom - rhs",
@@ -2876,6 +4651,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 2, 4,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 3},
+					To:   Point{3, 3},
+					Type: Merge,
+				},
+				Move{
+					From: Point{1, 3},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -2892,6 +4679,23 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 2,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 1},
+					To:   Point{3, 1},
+					Type: Merge,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (V) gap top - lhs",
@@ -2906,6 +4710,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 2,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -2922,6 +4738,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (V) gap top - rhs",
@@ -2937,6 +4765,7 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (V) gap bottom - lhs",
@@ -2951,6 +4780,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 0,
 				0, 0, 0, 2,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -2967,6 +4808,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 2,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (V) gap bottom - rhs",
@@ -2982,6 +4835,7 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 2,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (V) consecutive top - lhs",
@@ -2996,6 +4850,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -3012,6 +4878,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (V) consecutive top - rhs",
@@ -3027,6 +4905,7 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (V) consecutive middle - lhs",
@@ -3041,6 +4920,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 2,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -3057,6 +4948,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (V) consecutive middle - rhs",
@@ -3072,6 +4975,7 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (V) consecutive bottom - lhs",
@@ -3086,6 +4990,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 2,
 				0, 0, 0, 2,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -3102,6 +5018,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 2,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (V) consecutive bottom - rhs",
@@ -3117,6 +5045,7 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 2,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (V) multiple top - lhs",
@@ -3131,6 +5060,23 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 2,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -3147,6 +5093,23 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (V) multiple top - rhs",
@@ -3162,6 +5125,7 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (V) multiple bottom - lhs",
@@ -3176,6 +5140,23 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 2,
 				0, 0, 0, 2,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -3192,6 +5173,23 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 2,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 3},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 2},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 1},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (V) multiple bottom - rhs",
@@ -3207,14 +5205,18 @@ func TestMoveRight(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 2,
 			},
+			wantMoves: nil,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := tt.board.Move(Right)
+			got, moves := tt.board.Move(Right, nil)
 			if !tt.want.cmp(got) {
 				t.Fatalf("Move(Right) want %v, got %v", tt.want.pretty(), got.pretty())
+			}
+			if !reflect.DeepEqual(tt.wantMoves, moves) {
+				t.Fatalf("Move(Left) want moves %v, got %v", tt.wantMoves, moves)
 			}
 		})
 	}
@@ -3222,9 +5224,10 @@ func TestMoveRight(t *testing.T) {
 
 func TestMoveUp(t *testing.T) {
 	tests := []struct {
-		name  string
-		board Board
-		want  Board
+		name      string
+		board     Board
+		want      Board
+		wantMoves []Move
 	}{
 		{
 			name: "empty board",
@@ -3240,6 +5243,7 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "single item top - lhs",
@@ -3255,6 +5259,7 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "single item top - middle",
@@ -3270,6 +5275,7 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "single item top - rhs",
@@ -3285,6 +5291,7 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "single item middle - lhs",
@@ -3299,6 +5306,13 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -3315,6 +5329,13 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 2},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "single item middle - rhs",
@@ -3329,6 +5350,13 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -3345,6 +5373,13 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 3},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "single item bottom - middle",
@@ -3359,6 +5394,13 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 3},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -3375,6 +5417,13 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 3},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two consecutive items (H) top - lhs",
@@ -3390,6 +5439,7 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two consecutive items (H) top - middle",
@@ -3405,6 +5455,7 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two consecutive items (H) top - rhs",
@@ -3420,6 +5471,7 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two consecutive items (H) middle - lhs",
@@ -3434,6 +5486,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -3450,6 +5514,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 2},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two consecutive items (H) middle - rhs",
@@ -3464,6 +5540,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 2},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -3480,6 +5568,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 3},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 3},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two consecutive items (H) bottom - middle",
@@ -3494,6 +5594,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 3},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 3},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -3510,6 +5622,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 3},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two consecutive items (V) top - lhs",
@@ -3525,6 +5649,7 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two consecutive items (V) top - middle",
@@ -3540,6 +5665,7 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two consecutive items (V) top - rhs",
@@ -3555,6 +5681,7 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two consecutive items (V) middle - lhs",
@@ -3569,6 +5696,18 @@ func TestMoveUp(t *testing.T) {
 				2, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -3585,6 +5724,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 1},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two consecutive items (V) middle - rhs",
@@ -3599,6 +5750,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -3615,6 +5778,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 3},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two consecutive items (V) bottom - middle",
@@ -3629,6 +5804,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 2, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 2},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 3},
+					To:   Point{2, 1},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -3645,6 +5832,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two items with gap (H) top - lhs",
@@ -3660,6 +5859,7 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two items with gap (H) top - rhs",
@@ -3675,6 +5875,7 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two items with gap (H) middle - lhs",
@@ -3689,6 +5890,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 2},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -3705,6 +5918,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two items with gap (H) bottom - lhs",
@@ -3719,6 +5944,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 3},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 3},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -3735,6 +5972,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 3},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two items with gap (V) top - lhs",
@@ -3749,6 +5998,13 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 2, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 2},
+					To:   Point{2, 1},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -3765,6 +6021,13 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two items with gap (V) bottom - lhs",
@@ -3779,6 +6042,18 @@ func TestMoveUp(t *testing.T) {
 				4, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 3},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -3795,6 +6070,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 1},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 3},
+					To:   Point{2, 1},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two items with gap (V) bottom - rhs",
@@ -3809,6 +6096,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 4,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -3825,6 +6124,7 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three items with gap (H) top - rhs",
@@ -3840,6 +6140,7 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three items with gap (H) middle - lhs",
@@ -3854,6 +6155,23 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -3870,6 +6188,23 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 2},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three items with gap (H) bottom - lhs",
@@ -3884,6 +6219,23 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 3},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 3},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -3900,6 +6252,23 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 3},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 3},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three items with gap (V) top - lhs",
@@ -3914,6 +6283,13 @@ func TestMoveUp(t *testing.T) {
 				4, 0, 0, 0,
 				8, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 3},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -3930,6 +6306,13 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 8, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 3},
+					To:   Point{2, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three items with gap (V) top - rhs",
@@ -3944,6 +6327,13 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 4,
 				0, 0, 0, 8,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 3},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -3960,6 +6350,18 @@ func TestMoveUp(t *testing.T) {
 				2, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 3},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three items with gap (V) bottom - middle",
@@ -3974,6 +6376,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 4, 0,
 				0, 0, 2, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 2},
+					To:   Point{2, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 3},
+					To:   Point{2, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -3990,6 +6404,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three consecutive items (H) top - lhs",
@@ -4005,6 +6431,7 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three consecutive items (H) top - rhs",
@@ -4020,6 +6447,7 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three consecutive items (H) middle - lhs",
@@ -4034,6 +6462,23 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 2},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -4050,6 +6495,23 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 2},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three consecutive items (H) bottom - lhs",
@@ -4064,6 +6526,23 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 3},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 3},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 3},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -4080,6 +6559,23 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 3},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 3},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three consecutive items (V) top - lhs",
@@ -4095,6 +6591,7 @@ func TestMoveUp(t *testing.T) {
 				8, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three consecutive items (V) top - middle",
@@ -4110,6 +6607,7 @@ func TestMoveUp(t *testing.T) {
 				0, 8, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three consecutive items (V) top - rhs",
@@ -4125,6 +6623,7 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 8,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three consecutive items (V) bottom - lhs",
@@ -4139,6 +6638,23 @@ func TestMoveUp(t *testing.T) {
 				4, 0, 0, 0,
 				8, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 3},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -4155,6 +6671,23 @@ func TestMoveUp(t *testing.T) {
 				0, 8, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 3},
+					To:   Point{1, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three consecutive items (V) bottom - rhs",
@@ -4170,7 +6703,25 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 8,
 				0, 0, 0, 0,
 			},
-		}, {
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+			},
+		},
+		{
 			name: "merge (H) gap top - lhs",
 			board: Board{
 				2, 0, 2, 0,
@@ -4184,6 +6735,7 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (H) gap top - rhs",
@@ -4199,6 +6751,7 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (H) gap middle - lhs",
@@ -4213,6 +6766,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 1},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -4229,6 +6794,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (H) gap bottom - lhs",
@@ -4243,6 +6820,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 3},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 3},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -4259,6 +6848,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 3},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (H) consecutive top - lhs",
@@ -4274,6 +6875,7 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (H) consecutive top - middle",
@@ -4289,6 +6891,7 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (H) consecutive top - rhs",
@@ -4304,6 +6907,7 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (H) consecutive middle - lhs",
@@ -4318,6 +6922,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 1},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -4334,6 +6950,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 1},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (H) consecutive middle - rhs",
@@ -4348,6 +6976,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 1},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -4364,6 +7004,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 3},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 3},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (H) consecutive bottom - middle",
@@ -4378,6 +7030,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 3},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 3},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -4394,6 +7058,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 3},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (H) multiple top - lhs",
@@ -4409,6 +7085,7 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (H) multiple top - rhs",
@@ -4424,6 +7101,7 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (H) multiple middle - lhs",
@@ -4438,6 +7116,23 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 1},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 1},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -4454,6 +7149,23 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 1},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (H) multiple bottom - lhs",
@@ -4468,6 +7180,23 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 3},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 3},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 3},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -4484,6 +7213,23 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 3},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 3},
+					To:   Point{2, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (H) edges",
@@ -4498,6 +7244,23 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 3},
+					To:   Point{1, 0},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -4514,6 +7277,13 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 0},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (V) gap top - middle",
@@ -4528,6 +7298,13 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 0},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -4544,6 +7321,13 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 0},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (V) gap bottom - lhs",
@@ -4558,6 +7342,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 3},
+					To:   Point{0, 0},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -4574,6 +7370,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 3},
+					To:   Point{1, 0},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (V) gap bottom - rhs",
@@ -4588,6 +7396,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{3, 0},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -4604,6 +7424,13 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 0},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (V) consecutive top - middle",
@@ -4618,6 +7445,13 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{1, 0},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -4634,6 +7468,13 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 0},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (V) consecutive middle - lhs",
@@ -4648,6 +7489,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 0},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -4664,6 +7517,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 0},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (V) consecutive middle - rhs",
@@ -4678,6 +7543,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 0},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -4694,6 +7571,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 3},
+					To:   Point{0, 0},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (V) consecutive bottom - middle",
@@ -4708,6 +7597,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 3},
+					To:   Point{1, 0},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -4724,6 +7625,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{3, 0},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (V) multiple top - lhs",
@@ -4738,6 +7651,18 @@ func TestMoveUp(t *testing.T) {
 				2, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 0},
+					Type: Merge,
+				},
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -4754,6 +7679,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{1, 0},
+					Type: Merge,
+				},
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 1},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (V) multiple top - rhs",
@@ -4768,6 +7705,18 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 0},
+					Type: Merge,
+				},
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -4784,6 +7733,23 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 0},
+					Type: Merge,
+				},
+				Move{
+					From: Point{0, 3},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (V) multiple bottom - middle",
@@ -4798,6 +7764,23 @@ func TestMoveUp(t *testing.T) {
 				0, 2, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{1, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 0},
+					Type: Merge,
+				},
+				Move{
+					From: Point{1, 3},
+					To:   Point{1, 1},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -4814,14 +7797,34 @@ func TestMoveUp(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 0},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 0},
+					Type: Merge,
+				},
+				Move{
+					From: Point{3, 3},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+			},
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := tt.board.Move(Up)
+			got, moves := tt.board.Move(Up, nil)
 			if !tt.want.cmp(got) {
 				t.Fatalf("Move(Up) want %v, got %v", tt.want.pretty(), got.pretty())
+			}
+			if !reflect.DeepEqual(tt.wantMoves, moves) {
+				t.Fatalf("Move(Left) want moves %v, got %v", tt.wantMoves, moves)
 			}
 		})
 	}
@@ -4829,9 +7832,10 @@ func TestMoveUp(t *testing.T) {
 
 func TestMoveDown(t *testing.T) {
 	tests := []struct {
-		name  string
-		board Board
-		want  Board
+		name      string
+		board     Board
+		want      Board
+		wantMoves []Move
 	}{
 		{
 			name: "empty board",
@@ -4847,6 +7851,7 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "single item top - lhs",
@@ -4861,6 +7866,13 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				2, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 0},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -4877,6 +7889,13 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 2, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "single item top - rhs",
@@ -4891,6 +7910,13 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 2,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 0},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -4907,6 +7933,13 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				2, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "single item middle - middle",
@@ -4921,6 +7954,13 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 2, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 2},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -4937,6 +7977,13 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 2,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "single item bottom - lhs",
@@ -4952,6 +7999,7 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				2, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "single item bottom - middle",
@@ -4967,6 +8015,7 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 2, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "single item bottom - rhs",
@@ -4982,6 +8031,7 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 2,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two consecutive items (H) top - lhs",
@@ -4996,6 +8046,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				4, 2, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 0},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -5012,6 +8074,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 4, 2, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two consecutive items (H) top - rhs",
@@ -5026,6 +8100,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 4, 2,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 0},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 0},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -5042,6 +8128,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				4, 2, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two consecutive items (H) middle - middle",
@@ -5056,6 +8154,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 4, 2, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 2},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -5072,6 +8182,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 4, 2,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 2},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two consecutive items (H) bottom - lhs",
@@ -5087,6 +8209,7 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				4, 2, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two consecutive items (H) bottom - middle",
@@ -5102,6 +8225,7 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 4, 2, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two consecutive items (H) bottom - rhs",
@@ -5117,6 +8241,7 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 4, 2,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two consecutive items (V) top - lhs",
@@ -5131,6 +8256,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				4, 0, 0, 0,
 				2, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -5147,6 +8284,18 @@ func TestMoveDown(t *testing.T) {
 				0, 4, 0, 0,
 				0, 2, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{1, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two consecutive items (V) top - rhs",
@@ -5161,6 +8310,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 4,
 				0, 0, 0, 2,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 0},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -5177,6 +8338,18 @@ func TestMoveDown(t *testing.T) {
 				4, 0, 0, 0,
 				2, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two consecutive items (V) middle - middle",
@@ -5191,6 +8364,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 4, 0, 0,
 				0, 2, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 1},
+					To:   Point{1, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -5207,6 +8392,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 4,
 				0, 0, 0, 2,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two consecutive items (V) bottom - lhs",
@@ -5222,6 +8419,7 @@ func TestMoveDown(t *testing.T) {
 				4, 0, 0, 0,
 				2, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two consecutive items (V) bottom - middle",
@@ -5237,6 +8435,7 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 4, 0,
 				0, 0, 2, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two consecutive items (V) bottom - rhs",
@@ -5252,6 +8451,7 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 4,
 				0, 0, 0, 2,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two items with gap (H) top - lhs",
@@ -5266,6 +8466,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				2, 0, 4, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -5282,6 +8494,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 2, 0, 4,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 0},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two items with gap (H) middle - lhs",
@@ -5296,6 +8520,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				2, 0, 4, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 2},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -5312,6 +8548,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 2, 0, 4,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two items with gap (H) bottom - lhs",
@@ -5327,6 +8575,7 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				2, 0, 4, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two items with gap (H) bottom - rhs",
@@ -5342,6 +8591,7 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 2, 0, 4,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "two items with gap (V) top - lhs",
@@ -5356,6 +8606,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 4, 0,
 				0, 0, 2, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 2},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 0},
+					To:   Point{2, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -5372,6 +8634,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 4,
 				0, 0, 0, 2,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 0},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two items with gap (V) bottom - lhs",
@@ -5386,6 +8660,13 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				2, 0, 0, 0,
 				4, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -5402,6 +8683,13 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 2, 0,
 				0, 0, 4, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 1},
+					To:   Point{2, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "two items with gap (V) bottom - rhs",
@@ -5416,6 +8704,13 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 2,
 				0, 0, 0, 4,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -5432,6 +8727,23 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				2, 4, 0, 8,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 0},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three items with gap (H) top - rhs",
@@ -5446,6 +8758,23 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				2, 0, 4, 8,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 0},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 0},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -5462,6 +8791,23 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				2, 4, 0, 8,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three items with gap (H) middle - rhs",
@@ -5476,6 +8822,23 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				2, 0, 4, 8,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 2},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -5492,6 +8855,7 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				2, 4, 0, 8,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three items with gap (H) bottom - rhs",
@@ -5507,6 +8871,7 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				2, 0, 4, 8,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three items with gap (V) top - lhs",
@@ -5521,6 +8886,18 @@ func TestMoveDown(t *testing.T) {
 				2, 0, 0, 0,
 				4, 0, 0, 0,
 				8, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -5537,6 +8914,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 4, 0,
 				0, 0, 8, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 1},
+					To:   Point{2, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 0},
+					To:   Point{2, 1},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three items with gap (V) top - rhs",
@@ -5551,6 +8940,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 4,
 				0, 0, 0, 8,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 0},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -5567,6 +8968,13 @@ func TestMoveDown(t *testing.T) {
 				4, 0, 0, 0,
 				2, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 0},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three items with gap (V) bottom - middle",
@@ -5581,6 +8989,13 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 8, 0,
 				0, 0, 4, 0,
 				0, 0, 2, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{2, 1},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -5597,6 +9012,13 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 4,
 				0, 0, 0, 2,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 0},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three consecutive items (H) top - lhs",
@@ -5611,6 +9033,23 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				2, 4, 8, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -5627,6 +9066,23 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 2, 4, 8,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 0},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 0},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three consecutive items (H) middle - lhs",
@@ -5641,6 +9097,23 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				2, 4, 8, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 2},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -5657,6 +9130,23 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 2, 4, 8,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 2},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three consecutive items (H) bottom - lhs",
@@ -5672,6 +9162,7 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				2, 4, 8, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three consecutive items (H) bottom - rhs",
@@ -5687,6 +9178,7 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 2, 4, 8,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three consecutive items (V) top - lhs",
@@ -5701,6 +9193,23 @@ func TestMoveDown(t *testing.T) {
 				2, 0, 0, 0,
 				4, 0, 0, 0,
 				8, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{0, 1},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -5717,6 +9226,23 @@ func TestMoveDown(t *testing.T) {
 				0, 4, 0, 0,
 				0, 8, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 1},
+					To:   Point{1, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{1, 1},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "three consecutive items (V) top - rhs",
@@ -5731,6 +9257,23 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 4,
 				0, 0, 0, 8,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 0},
+					To:   Point{3, 1},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -5747,6 +9290,7 @@ func TestMoveDown(t *testing.T) {
 				4, 0, 0, 0,
 				8, 0, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three consecutive items (V) bottom - middle",
@@ -5762,6 +9306,7 @@ func TestMoveDown(t *testing.T) {
 				0, 4, 0, 0,
 				0, 8, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "three consecutive items (V) bottom - rhs",
@@ -5777,7 +9322,8 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 4,
 				0, 0, 0, 8,
 			},
-		}, {
+		},
+		{
 			name: "merge (H) gap top - lhs",
 			board: Board{
 				2, 0, 2, 0,
@@ -5790,6 +9336,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				2, 0, 2, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -5806,6 +9364,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 2, 0, 2,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 0},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (H) gap middle - lhs",
@@ -5820,6 +9390,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				2, 0, 2, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 1},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -5836,6 +9418,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 2, 0, 2,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 1},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (H) gap bottom - lhs",
@@ -5851,6 +9445,7 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				2, 0, 2, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (H) gap bottom - rhs",
@@ -5866,6 +9461,7 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 2, 0, 2,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (H) consecutive top - lhs",
@@ -5880,6 +9476,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				2, 2, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 0},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -5896,6 +9504,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 2, 2, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (H) consecutive top - rhs",
@@ -5910,6 +9530,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 2, 2,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 0},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 0},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -5926,6 +9558,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				2, 2, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (H) consecutive middle - middle",
@@ -5940,6 +9584,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 2, 2, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 1},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 1},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -5956,6 +9612,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 2, 2,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 1},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (H) consecutive bottom - lhs",
@@ -5971,6 +9639,7 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				2, 2, 0, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (H) consecutive bottom - middle",
@@ -5986,6 +9655,7 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 2, 2, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (H) consecutive bottom - rhs",
@@ -6001,6 +9671,7 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 2, 2,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (H) multiple top - lhs",
@@ -6015,6 +9686,23 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				2, 2, 2, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 0},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -6031,6 +9719,23 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 2, 2, 2,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 0},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 0},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (H) multiple middle - lhs",
@@ -6045,6 +9750,23 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				2, 2, 2, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{2, 1},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 1},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -6061,6 +9783,23 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 2, 2, 2,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{2, 1},
+					To:   Point{2, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 1},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (H) multiple bottom - lhs",
@@ -6076,6 +9815,7 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				2, 2, 2, 0,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (H) multiple bottom - rhs",
@@ -6091,6 +9831,7 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 2, 2, 2,
 			},
+			wantMoves: nil,
 		},
 		{
 			name: "merge (H) edges",
@@ -6105,6 +9846,23 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				2, 4, 0, 2,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{1, 3},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -6121,6 +9879,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				4, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{0, 3},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (V) gap top - middle",
@@ -6135,6 +9905,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 4, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{1, 3},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -6151,6 +9933,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 4,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 0},
+					To:   Point{3, 3},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (V) gap bottom - lhs",
@@ -6165,6 +9959,13 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				4, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 3},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -6181,6 +9982,13 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 4, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{1, 3},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (V) gap bottom - rhs",
@@ -6195,6 +10003,13 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 4,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 3},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -6211,6 +10026,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				4, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{0, 3},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (V) consecutive top - middle",
@@ -6225,6 +10052,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 4, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 1},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{1, 3},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -6241,6 +10080,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 4,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 0},
+					To:   Point{3, 3},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (V) consecutive middle - lhs",
@@ -6255,6 +10106,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				4, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 3},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -6271,6 +10134,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 4, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 1},
+					To:   Point{1, 3},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (V) consecutive middle - rhs",
@@ -6285,6 +10160,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 4,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 3},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -6301,6 +10188,13 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				4, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 3},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (V) consecutive bottom - middle",
@@ -6315,6 +10209,13 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 4, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 3},
+					Type: Merge,
+				},
 			},
 		},
 		{
@@ -6331,6 +10232,13 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 4,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 3},
+					Type: Merge,
+				},
+			},
 		},
 		{
 			name: "merge (V) multiple top - lhs",
@@ -6345,6 +10253,23 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				2, 0, 0, 0,
 				4, 0, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 3},
+					Type: Merge,
+				},
+				Move{
+					From: Point{0, 0},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -6361,6 +10286,23 @@ func TestMoveDown(t *testing.T) {
 				0, 2, 0, 0,
 				0, 4, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{1, 1},
+					To:   Point{1, 3},
+					Type: Merge,
+				},
+				Move{
+					From: Point{1, 0},
+					To:   Point{1, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (V) multiple top - rhs",
@@ -6375,6 +10317,23 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 0, 0, 2,
 				0, 0, 0, 4,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 3},
+					Type: Slide,
+				},
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 3},
+					Type: Merge,
+				},
+				Move{
+					From: Point{3, 0},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -6391,6 +10350,18 @@ func TestMoveDown(t *testing.T) {
 				2, 0, 0, 0,
 				4, 0, 0, 0,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{0, 2},
+					To:   Point{0, 3},
+					Type: Merge,
+				},
+				Move{
+					From: Point{0, 1},
+					To:   Point{0, 2},
+					Type: Slide,
+				},
+			},
 		},
 		{
 			name: "merge (V) multiple bottom - middle",
@@ -6405,6 +10376,18 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 0,
 				0, 2, 0, 0,
 				0, 4, 0, 0,
+			},
+			wantMoves: []Move{
+				Move{
+					From: Point{1, 2},
+					To:   Point{1, 3},
+					Type: Merge,
+				},
+				Move{
+					From: Point{1, 1},
+					To:   Point{1, 2},
+					Type: Slide,
+				},
 			},
 		},
 		{
@@ -6421,14 +10404,29 @@ func TestMoveDown(t *testing.T) {
 				0, 0, 0, 2,
 				0, 0, 0, 4,
 			},
+			wantMoves: []Move{
+				Move{
+					From: Point{3, 2},
+					To:   Point{3, 3},
+					Type: Merge,
+				},
+				Move{
+					From: Point{3, 1},
+					To:   Point{3, 2},
+					Type: Slide,
+				},
+			},
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := tt.board.Move(Down)
+			got, moves := tt.board.Move(Down, nil)
 			if !tt.want.cmp(got) {
 				t.Fatalf("Move(Down) want %v, got %v", tt.want.pretty(), got.pretty())
+			}
+			if !reflect.DeepEqual(tt.wantMoves, moves) {
+				t.Fatalf("Move(Left) want moves %v, got %v", tt.wantMoves, moves)
 			}
 		})
 	}
@@ -6453,4 +10451,56 @@ func (b Board) cmp(a Board) bool {
 		}
 	}
 	return true
+}
+
+func Test_reverse(t *testing.T) {
+	tests := []struct {
+		name string
+		d    []Move
+		want []Move
+	}{
+		{name: "nil", d: nil, want: nil},
+		{name: "empty", d: []Move{}, want: []Move{}},
+		{
+			name: "single",
+			d: []Move{
+				Move{Type: 1},
+			},
+			want: []Move{
+				Move{Type: 1},
+			},
+		},
+		{
+			name: "even",
+			d: []Move{
+				Move{Type: 1},
+				Move{Type: 0},
+			},
+			want: []Move{
+				Move{Type: 0},
+				Move{Type: 1},
+			},
+		},
+		{
+			name: "odd",
+			d: []Move{
+				Move{Type: 1},
+				Move{Type: 1},
+				Move{Type: 0},
+			},
+			want: []Move{
+				Move{Type: 0},
+				Move{Type: 1},
+				Move{Type: 1},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			reverse(tt.d)
+			if !reflect.DeepEqual(tt.d, tt.want) {
+				t.Fatalf("reverse() want %v, got %v", tt.want, tt.d)
+			}
+		})
+	}
 }

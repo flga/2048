@@ -1,5 +1,21 @@
 package t48
 
+type MoveType int
+
+const (
+	Slide MoveType = iota
+	Merge
+)
+
+type Point struct {
+	X, Y int
+}
+
+type Move struct {
+	From, To Point
+	Type     MoveType
+}
+
 // Direction that the pieces can be moved
 type Direction int
 
@@ -61,25 +77,26 @@ type Board [16]int
 // Each piece will be moved to the furthest available spot.
 // If a piece lands in a cell whose adjacent value is the same, they are merged
 // into the adjacent cell and its value gets doubled.
-func (b Board) Move(d Direction) Board {
+func (b Board) Move(d Direction, moves []Move) (Board, []Move) {
 	if d == Left || d == Up {
 		for i := 0; i < len(b); i++ {
-			process(&b, d, i)
+			moves = process(&b, d, i, moves)
 		}
 	}
 
 	if d == Right || d == Down {
 		for i := len(b) - 1; i >= 0; i-- {
-			process(&b, d, i)
+			moves = process(&b, d, i, moves)
 		}
+		// reverse(moves)
 	}
 
-	return b
+	return b, moves
 }
 
-func process(b *Board, d Direction, i int) {
+func process(b *Board, d Direction, i int, moves []Move) []Move {
 	if b[i] == 0 {
-		return
+		return moves
 	}
 
 	var (
@@ -102,12 +119,32 @@ func process(b *Board, d Direction, i int) {
 	adjX, adjY, adjInBounds := d.inc(targetX, targetY)
 	adjI := adjY*4 + adjX
 	if adjInBounds && b[adjI] == b[i] {
+		moves = append(moves, Move{
+			From: Point{curX, curY},
+			To:   Point{adjX, adjY},
+			Type: Merge,
+		})
 		b[adjI] *= 2
+		b[i] = 0
+	} else if targetI != -1 {
+		moves = append(moves, Move{
+			From: Point{curX, curY},
+			To:   Point{targetX, targetY},
+			Type: Slide,
+		})
+		b[targetI] = b[i]
 		b[i] = 0
 	}
 
-	if targetI != -1 {
-		b[targetI] = b[i]
-		b[i] = 0
+	return moves
+}
+
+func reverse(m []Move) {
+	length := len(m)
+
+	for i := 0; i < length/2; i++ {
+		a := i
+		b := length - 1 - i
+		m[a], m[b] = m[b], m[a]
 	}
 }
